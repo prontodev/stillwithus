@@ -16,6 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from clientsites import views as clientsite_views
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'sites/', clientsite_views.ClientSiteView.as_view(), name='clientsites')
 ]
