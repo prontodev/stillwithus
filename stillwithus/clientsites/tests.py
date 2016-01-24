@@ -32,11 +32,14 @@ class ClientSiteViewTest(TestCase):
         response = self.client.get(self.url)
         self.assertTemplateUsed(response, 'clientsites.html')
 
-    def test_clientsite_should_render_html_correctly(self):
+    def test_clientsite_should_have_title(self):
         response = self.client.get(self.url)
 
         expected = '<title>Still with Us?</title>'
         self.assertContains(response, expected, status_code=200)
+
+    def test_clientsite_should_render_html_for_clientsites_correctly(self):
+        response = self.client.get(self.url)
 
         expected = '<h1>Client Sites</h1>'
         self.assertContains(response, expected, status_code=200)
@@ -68,6 +71,18 @@ class ClientSiteViewTest(TestCase):
         expected = '<tr><td><a href="http://www.atlasperformancechicago.com" '
         expected += 'target="_blank">www.atlasperformancechicago.com</a></td>'
         expected += '<td>Yes</td><td></td></tr>'
+        self.assertContains(response, expected, status_code=200)
+
+    def test_clientsite_should_render_html_for_servers_correctly(self):
+        response = self.client.get(self.url)
+
+        expected = '<h1>Servers</h1>'
+        self.assertContains(response, expected, status_code=200)
+
+        expected = '<table border="1">'
+        self.assertContains(response, expected, status_code=200)
+
+        expected = '<thead><tr><th>Name</th><th>IP</th></tr></thead>'
         self.assertContains(response, expected, status_code=200)
 
 
