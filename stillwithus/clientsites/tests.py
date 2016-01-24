@@ -21,15 +21,35 @@ class ClientSiteTest(TestCase):
 
 
 class ClientSiteViewTest(TestCase):
+    def setUp(self):
+        self.url = reverse('clientsites')
+
     def test_clientsite_should_be_accessible(self):
-        url = reverse('clientsites')
-        response = self.client.get(url)
+        response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
     def test_clientsite_should_use_correct_template(self):
-        url = reverse('clientsites')
-        response = self.client.get(url)
+        response = self.client.get(self.url)
         self.assertTemplateUsed(response, 'clientsites.html')
+
+    def test_clientsite_should_render_html_correctly(self):
+        response = self.client.get(self.url)
+
+        expected = '<title>Still with Us?</title>'
+        self.assertContains(response, expected, status_code=200)
+
+        expected = '<h1>Client Sites</h1>'
+        self.assertContains(response, expected, status_code=200)
+
+        expected = '<table border="1">'
+        self.assertContains(response, expected, status_code=200)
+
+        expected = '<thead><tr><th>Domain</th><th>Still with Us?'
+        expected += '</th></tr></thead>'
+        self.assertContains(response, expected, status_code=200)
+
+        expected = '<tr><td>www.prontomarketing.com</td><td>Yes</td></tr>'
+        self.assertContains(response, expected, status_code=200)
 
 
 class ClientSiteAdminTest(TestCase):
