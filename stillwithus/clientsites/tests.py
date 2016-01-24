@@ -50,22 +50,21 @@ class ClientSiteViewTest(TestCase):
         self.assertContains(response, expected, status_code=200)
 
     def test_clientsite_should_query_domains_and_check_if_still_with_us(self):
-        Server.objects.create(
-            name='AWS ELB',
-            ip='54.72.3.133'
-        )
-        Server.objects.create(
-            name='Bypronto',
-            ip='54.171.171.172'
-        )
-        Server.objects.create(
-            name='Pronto Server 1',
-            ip='54.67.50.151'
-        )
-        Server.objects.create(
-            name='Pronto Server 2',
-            ip='54.252.146.70'
-        )
+        Server.objects.bulk_create([
+            Server(name='Pronto 1', ip='54.72.3.133'),
+            Server(name='Pronto 2', ip='54.72.3.103'),
+            Server(name='Pronto 3', ip='54.252.146.70'),
+            Server(name='Pronto 4', ip='54.67.50.151'),
+            Server(name='Pronto 5', ip='52.1.32.33'),
+            Server(name='Pronto 6', ip='27.254.65.18'),
+            Server(name='Pronto 7', ip='54.246.93.4'),
+            Server(name='Pronto 8', ip='54.228.219.35'),
+            Server(name='Pronto 9', ip='54.72.3.253'),
+            Server(name='Pronto 10', ip='54.171.171.172'),
+            Server(name='Pronto 11', ip='46.137.96.191'),
+            Server(name='Pronto 12', ip='54.194.28.91'),
+            Server(name='Pronto 13', ip='54.72.53.55'),
+        ])
 
         ClientSite.objects.create(
             name='Pronto',
