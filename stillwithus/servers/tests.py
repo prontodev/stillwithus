@@ -20,7 +20,7 @@ class ServerTest(TestCase):
 
 
 class ClientSiteAdminTest(TestCase):
-    def test_server_admin_page_should_be_accessibale(self):
+    def setUp(self):
         admin = User.objects.create_superuser(
             'admin',
             'admin@test.com',
@@ -30,6 +30,22 @@ class ClientSiteAdminTest(TestCase):
             username='admin',
             password='password'
         )
-        url = '/admin/servers/server/'
-        response = self.client.get(url)
+        self.url = '/admin/servers/server/'
+
+    def test_server_admin_page_should_be_accessibale(self):
+        response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
+
+    def test_server_admin_page_should_name_and_ip_columns(self):
+        Server.objects.create(
+            name='Bypronto',
+            ip='54.171.171.100'
+        )
+
+        response = self.client.get(self.url)
+
+        expected = '<div class="text"><a href="?o=1">Name</a></div>'
+        self.assertContains(response, expected, status_code=200)
+
+        expected = '<div class="text"><a href="?o=2">Ip</a></div>'
+        self.assertContains(response, expected, status_code=200)
