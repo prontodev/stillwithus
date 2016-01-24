@@ -51,6 +51,14 @@ class ClientSiteViewTest(TestCase):
 
     def test_clientsite_should_query_domains_and_check_if_still_with_us(self):
         Server.objects.create(
+            name='AWS ELB',
+            ip='54.72.3.133'
+        )
+        Server.objects.create(
+            name='Bypronto',
+            ip='54.171.171.172'
+        )
+        Server.objects.create(
             name='Pronto Server',
             ip='54.67.50.151'
         )
@@ -68,13 +76,21 @@ class ClientSiteViewTest(TestCase):
 
         expected = '<tr><td><a href="http://www.prontomarketing.com" '
         expected += 'target="_blank">www.prontomarketing.com</a></td>'
-        expected += '<td>No</td><td></td></tr>'
-        self.assertContains(response, expected, status_code=200)
+        expected += '<td style="color: red;">No</td><td></td></tr>'
+        self.assertContains(response, expected, count=1, status_code=200)
+
+        expected = '<td><a href="http://www.prontomarketing.com" '
+        expected += 'target="_blank">www.prontomarketing.com</a></td>'
+        self.assertContains(response, expected, count=1, status_code=200)
 
         expected = '<tr><td><a href="http://www.atlasperformancechicago.com" '
         expected += 'target="_blank">www.atlasperformancechicago.com</a></td>'
         expected += '<td>Yes</td><td></td></tr>'
-        self.assertContains(response, expected, status_code=200)
+        self.assertContains(response, expected, count=1, status_code=200)
+
+        expected = '<td><a href="http://www.atlasperformancechicago.com" '
+        expected += 'target="_blank">www.atlasperformancechicago.com</a></td>'
+        self.assertContains(response, expected, count=1, status_code=200)
 
     def test_clientsite_should_render_html_for_servers_correctly(self):
         response = self.client.get(self.url)

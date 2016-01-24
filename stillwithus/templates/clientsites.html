@@ -21,7 +21,7 @@
                 <td>
                     <a href="http://{{ each_domain }}" target="_blank">{{ each_domain }}</a>
                 </td>
-                <td>{{ each_with_us }}</td>
+                <td{% if each_with_us == 'No' %} style="color: red;"{% endif %}>{{ each_with_us }}</td>
                 <td></td>
             </tr>
         {% endfor %}

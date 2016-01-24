@@ -26,6 +26,7 @@ class ClientSiteView(TemplateView):
             for each_ip in ip_list:
                 if each_ip in pronto_ips:
                     results.append((each.domain, 'Yes'))
+                    break
             else:
                 results.append((each.domain, 'No'))
 
