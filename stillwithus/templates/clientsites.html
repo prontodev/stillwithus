@@ -16,13 +16,13 @@
     {% endspaceless %}
     <tbody>
         {% spaceless %}
-        {% for each_domain, each_with_us in results %}
+        {% for each_domain, each_with_us, each_note in results %}
             <tr>
                 <td>
                     <a href="http://{{ each_domain }}" target="_blank">{{ each_domain }}</a>
                 </td>
                 <td{% if each_with_us == 'No' %} style="color: red;"{% endif %}>{{ each_with_us }}</td>
-                <td></td>
+                <td>{{ each_note }}</td>
             </tr>
         {% endfor %}
         {% endspaceless %}

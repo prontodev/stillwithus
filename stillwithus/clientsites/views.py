@@ -19,16 +19,19 @@ class ClientSiteView(TemplateView):
 
         for each in clientsites:
             ip_list = []
-            ais = socket.getaddrinfo(each.domain, 80, 0, 0, 0)
-            for result in ais:
-                ip_list.append(result[-1][0])
-            ip_list = list(set(ip_list))
-            for each_ip in ip_list:
-                if each_ip in pronto_ips:
-                    results.append((each.domain, 'Yes'))
-                    break
-            else:
-                results.append((each.domain, 'No'))
+            try:
+                ais = socket.getaddrinfo(each.domain, 80, 0, 0, 0)
+                for result in ais:
+                    ip_list.append(result[-1][0])
+                ip_list = list(set(ip_list))
+                for each_ip in ip_list:
+                    if each_ip in pronto_ips:
+                        results.append((each.domain, 'Yes', '---'))
+                        break
+                else:
+                    results.append((each.domain, 'No', '---'))
+            except:
+                results.append((each.domain, '---', 'Cannot get IP'))
 
         return render(
             request,

@@ -79,7 +79,7 @@ class ClientSiteViewTest(TestCase):
 
         expected = '<tr><td><a href="http://www.prontomarketing.com" '
         expected += 'target="_blank">www.prontomarketing.com</a></td>'
-        expected += '<td style="color: red;">No</td><td></td></tr>'
+        expected += '<td style="color: red;">No</td><td>---</td></tr>'
         self.assertContains(response, expected, count=1, status_code=200)
 
         expected = '<td><a href="http://www.prontomarketing.com" '
@@ -88,11 +88,24 @@ class ClientSiteViewTest(TestCase):
 
         expected = '<tr><td><a href="http://www.atlasperformancechicago.com" '
         expected += 'target="_blank">www.atlasperformancechicago.com</a></td>'
-        expected += '<td>Yes</td><td></td></tr>'
+        expected += '<td>Yes</td><td>---</td></tr>'
         self.assertContains(response, expected, count=1, status_code=200)
 
         expected = '<td><a href="http://www.atlasperformancechicago.com" '
         expected += 'target="_blank">www.atlasperformancechicago.com</a></td>'
+        self.assertContains(response, expected, count=1, status_code=200)
+
+    def test_clientsite_should_add_note_if_cannot_get_ip(self):
+        ClientSite.objects.create(
+            name='Dayton Kaiafit',
+            domain='dayton.kaiafit.com'
+        )
+
+        response = self.client.get(self.url)
+
+        expected = '<tr><td><a href="http://dayton.kaiafit.com" '
+        expected += 'target="_blank">dayton.kaiafit.com</a></td>'
+        expected += '<td>---</td><td>Cannot get IP</td></tr>'
         self.assertContains(response, expected, count=1, status_code=200)
 
     def test_clientsite_should_render_html_for_servers_correctly(self):
