@@ -49,7 +49,12 @@ class ClientSiteViewTest(TestCase):
         expected += '</th><th>Note</th></tr></thead>'
         self.assertContains(response, expected, status_code=200)
 
-    def test_clientsite_should_query_domains_and_render_correctly(self):
+    def test_clientsite_should_query_domains_and_check_if_still_with_us(self):
+        Server.objects.create(
+            name='Pronto Server',
+            ip='54.67.50.151'
+        )
+
         ClientSite.objects.create(
             name='Pronto',
             domain='www.prontomarketing.com'
@@ -63,7 +68,7 @@ class ClientSiteViewTest(TestCase):
 
         expected = '<tr><td><a href="http://www.prontomarketing.com" '
         expected += 'target="_blank">www.prontomarketing.com</a></td>'
-        expected += '<td>Yes</td><td></td></tr>'
+        expected += '<td>No</td><td></td></tr>'
         self.assertContains(response, expected, status_code=200)
 
         expected = '<tr><td><a href="http://www.atlasperformancechicago.com" '

@@ -16,12 +16,12 @@
     {% endspaceless %}
     <tbody>
         {% spaceless %}
-        {% for each in clientsites %}
+        {% for each_domain, each_with_us in results %}
             <tr>
                 <td>
-                    <a href="http://{{ each.domain }}" target="_blank">{{ each.domain }}</a>
+                    <a href="http://{{ each_domain }}" target="_blank">{{ each_domain }}</a>
                 </td>
-                <td>Yes</td>
+                <td>{{ each_with_us }}</td>
                 <td></td>
             </tr>
         {% endfor %}
