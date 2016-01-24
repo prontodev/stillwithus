@@ -9,7 +9,6 @@ from servers.models import Server
 class ClientSiteTest(TestCase):
     def test_create_new_clientsite(self):
         clientsite = ClientSite()
-        clientsite.name = 'Atlas'
         clientsite.domain = 'www.atlasperformancechicago.com'
 
         self.assertFalse(clientsite.id)
@@ -17,7 +16,6 @@ class ClientSiteTest(TestCase):
         self.assertTrue(clientsite.id)
 
         clientsite = ClientSite.objects.get(id=clientsite.id)
-        self.assertEqual(clientsite.name, 'Atlas')
         self.assertEqual(clientsite.domain, 'www.atlasperformancechicago.com')
 
 
@@ -66,14 +64,10 @@ class ClientSiteViewTest(TestCase):
             Server(name='Pronto 13', ip='54.72.53.55'),
         ])
 
-        ClientSite.objects.create(
-            name='Pronto',
-            domain='www.prontomarketing.com'
-        )
-        ClientSite.objects.create(
-            name='Atlas',
-            domain='www.atlasperformancechicago.com'
-        )
+        ClientSite.objects.bulk_create([
+            ClientSite(domain='www.prontomarketing.com'),
+            ClientSite(domain='www.atlasperformancechicago.com'),
+        ])
 
         response = self.client.get(self.url)
 
@@ -97,7 +91,6 @@ class ClientSiteViewTest(TestCase):
 
     def test_clientsite_should_add_note_if_cannot_get_ip(self):
         ClientSite.objects.create(
-            name='Dayton Kaiafit',
             domain='dayton.kaiafit.com'
         )
 
@@ -155,14 +148,10 @@ class ClientSiteAdminTest(TestCase):
 
     def test_clientsite_admin_page_should_name_and_domain_columns(self):
         ClientSite.objects.create(
-            name='Pronto',
             domain='www.prontomarketing.com'
         )
 
         response = self.client.get(self.url)
 
-        expected = '<div class="text"><a href="?o=1">Name</a></div>'
-        self.assertContains(response, expected, status_code=200)
-
-        expected = '<div class="text"><a href="?o=2">Domain</a></div>'
+        expected = '<div class="text"><a href="?o=1">Domain</a></div>'
         self.assertContains(response, expected, status_code=200)
