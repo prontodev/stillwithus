@@ -38,6 +38,16 @@
         </tr>
     </thead>
     {% endspaceless %}
+    <tbody>
+        {% spaceless %}
+        {% for each in servers %}
+            <tr>
+                <td>{{ each.name }}</td>
+                <td>{{ each.ip }}</td>
+            </tr>
+        {% endfor %}
+        {% endspaceless %}
+    </tbody>
 </table>
 </body>
 </html>

@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 
 from .models import ClientSite
+from servers.models import Server
 
 
 class ClientSiteTest(TestCase):
@@ -44,9 +45,6 @@ class ClientSiteViewTest(TestCase):
         expected = '<h1>Client Sites</h1>'
         self.assertContains(response, expected, status_code=200)
 
-        expected = '<table border="1">'
-        self.assertContains(response, expected, status_code=200)
-
         expected = '<thead><tr><th>Domain</th><th>Still with Us?'
         expected += '</th><th>Note</th></tr></thead>'
         self.assertContains(response, expected, status_code=200)
@@ -79,10 +77,25 @@ class ClientSiteViewTest(TestCase):
         expected = '<h1>Servers</h1>'
         self.assertContains(response, expected, status_code=200)
 
-        expected = '<table border="1">'
+        expected = '<thead><tr><th>Name</th><th>IP</th></tr></thead>'
         self.assertContains(response, expected, status_code=200)
 
-        expected = '<thead><tr><th>Name</th><th>IP</th></tr></thead>'
+    def test_clientsite_should_query_server_name_and_ip_correctly(self):
+        Server.objects.create(
+            name='AWS ELB',
+            ip='54.72.3.133'
+        )
+        Server.objects.create(
+            name='Bypronto',
+            ip='54.171.171.172'
+        )
+
+        response = self.client.get(self.url)
+
+        expected = '<tr><td>AWS ELB</td><td>54.72.3.133</td></tr>'
+        self.assertContains(response, expected, status_code=200)
+
+        expected = '<tr><td>Bypronto</td><td>54.171.171.172</td></tr>'
         self.assertContains(response, expected, status_code=200)
 
 
