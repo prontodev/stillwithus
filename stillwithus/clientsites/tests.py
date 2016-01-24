@@ -124,7 +124,7 @@ class ClientSiteViewTest(TestCase):
 
 
 class ClientSiteAdminTest(TestCase):
-    def test_clientsite_admin_page_should_be_accessible(self):
+    def setUp(self):
         admin = User.objects.create_superuser(
             'admin',
             'admin@test.com',
@@ -134,6 +134,22 @@ class ClientSiteAdminTest(TestCase):
             username='admin',
             password='password'
         )
-        url = '/admin/clientsites/clientsite/'
-        response = self.client.get(url)
+        self.url = '/admin/clientsites/clientsite/'
+
+    def test_clientsite_admin_page_should_be_accessible(self):
+        response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
+
+    def test_clientsite_admin_page_should_name_and_domain_columns(self):
+        ClientSite.objects.create(
+            name='Pronto',
+            domain='www.prontomarketing.com'
+        )
+
+        response = self.client.get(self.url)
+
+        expected = '<div class="text"><a href="?o=1">Name</a></div>'
+        self.assertContains(response, expected, status_code=200)
+
+        expected = '<div class="text"><a href="?o=2">Domain</a></div>'
+        self.assertContains(response, expected, status_code=200)
