@@ -59,8 +59,12 @@ class ClientSiteViewTest(TestCase):
             ip='54.171.171.172'
         )
         Server.objects.create(
-            name='Pronto Server',
+            name='Pronto Server 1',
             ip='54.67.50.151'
+        )
+        Server.objects.create(
+            name='Pronto Server 2',
+            ip='54.252.146.70'
         )
 
         ClientSite.objects.create(
