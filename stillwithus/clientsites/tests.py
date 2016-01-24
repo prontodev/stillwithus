@@ -45,10 +45,11 @@ class ClientSiteViewTest(TestCase):
         self.assertContains(response, expected, status_code=200)
 
         expected = '<thead><tr><th>Domain</th><th>Still with Us?'
-        expected += '</th></tr></thead>'
+        expected += '</th><th>Note</th></tr></thead>'
         self.assertContains(response, expected, status_code=200)
 
-        expected = '<tr><td>www.prontomarketing.com</td><td>Yes</td></tr>'
+        expected = '<tr><td>www.prontomarketing.com</td>'
+        expected += '<td>Yes</td><td></td></tr>'
         self.assertContains(response, expected, status_code=200)
 
 
