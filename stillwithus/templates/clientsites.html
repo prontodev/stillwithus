@@ -16,11 +16,13 @@
     {% endspaceless %}
     <tbody>
         {% spaceless %}
-        <tr>
-            <td>www.prontomarketing.com</td>
-            <td>Yes</td>
-            <td></td>
-        </tr>
+        {% for each in clientsites %}
+            <tr>
+                <td>{{ each.domain }}</td>
+                <td>Yes</td>
+                <td></td>
+            </tr>
+        {% endfor %}
         {% endspaceless %}
     </tbody>
 </table>

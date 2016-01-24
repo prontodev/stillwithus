@@ -48,7 +48,23 @@ class ClientSiteViewTest(TestCase):
         expected += '</th><th>Note</th></tr></thead>'
         self.assertContains(response, expected, status_code=200)
 
+    def test_clientsite_should_query_domains_and_render_correctly(self):
+        ClientSite.objects.create(
+            name='Pronto',
+            domain='www.prontomarketing.com'
+        )
+        ClientSite.objects.create(
+            name='Atlas',
+            domain='www.atlasperformancechicago.com'
+        )
+
+        response = self.client.get(self.url)
+
         expected = '<tr><td>www.prontomarketing.com</td>'
+        expected += '<td>Yes</td><td></td></tr>'
+        self.assertContains(response, expected, status_code=200)
+
+        expected = '<tr><td>www.atlasperformancechicago.com</td>'
         expected += '<td>Yes</td><td></td></tr>'
         self.assertContains(response, expected, status_code=200)
 
