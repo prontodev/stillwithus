@@ -18,7 +18,9 @@
         {% spaceless %}
         {% for each in clientsites %}
             <tr>
-                <td>{{ each.domain }}</td>
+                <td>
+                    <a href="http://{{ each.domain }}" target="_blank">{{ each.domain }}</a>
+                </td>
                 <td>Yes</td>
                 <td></td>
             </tr>

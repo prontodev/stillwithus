@@ -60,11 +60,13 @@ class ClientSiteViewTest(TestCase):
 
         response = self.client.get(self.url)
 
-        expected = '<tr><td>www.prontomarketing.com</td>'
+        expected = '<tr><td><a href="http://www.prontomarketing.com" '
+        expected += 'target="_blank">www.prontomarketing.com</a></td>'
         expected += '<td>Yes</td><td></td></tr>'
         self.assertContains(response, expected, status_code=200)
 
-        expected = '<tr><td>www.atlasperformancechicago.com</td>'
+        expected = '<tr><td><a href="http://www.atlasperformancechicago.com" '
+        expected += 'target="_blank">www.atlasperformancechicago.com</a></td>'
         expected += '<td>Yes</td><td></td></tr>'
         self.assertContains(response, expected, status_code=200)
 
