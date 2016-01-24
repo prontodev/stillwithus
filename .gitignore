@@ -60,3 +60,9 @@ target/
 
 # Mac OS
 .DS_Store
+
+# Vim
+*.swp
+
+# Sqlite
+*.sqlite3
